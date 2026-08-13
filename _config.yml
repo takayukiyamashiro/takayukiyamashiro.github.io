@@ -1,0 +1,22 @@
+title: "山城貴之 | 神経内科・脳卒中"
+description: "沖縄で神経内科・脳卒中診療に携わる山城貴之のプロフィール、研究内容、脳卒中に関する医学情報を紹介します。"
+url: "https://takayukiyamashiro.github.io"
+baseurl: ""
+lang: ja
+timezone: Asia/Tokyo
+encoding: UTF-8
+markdown: kramdown
+permalink: /knowledge/:title/
+future: false
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - README.md
+  - POST_TEMPLATE.md
+

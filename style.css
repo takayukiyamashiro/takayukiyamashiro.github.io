@@ -283,6 +283,39 @@ a { color: inherit; text-decoration: none; }
 .sources ul { margin: 0; padding: 0; list-style: none; }
 .sources li { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
 .sources a { color: var(--teal); }
+.post-markdown { counter-reset: article-section; }
+.post-markdown > h2 {
+  counter-increment: article-section;
+  margin: 64px 0 0;
+  padding-top: 64px;
+  border-top: 1px solid var(--line);
+}
+.post-markdown > h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.post-markdown > h2::before {
+  content: counter(article-section, decimal-leading-zero);
+  display: block;
+  margin-bottom: 16px;
+  color: var(--teal);
+  font-family: Georgia, serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+.post-markdown > p { margin: 24px 0 0; }
+.post-markdown > p + p { margin-top: 18px; }
+.post-markdown > blockquote {
+  margin: 34px 0 64px;
+  padding: 26px 30px;
+  background: #e4efea;
+  border: 0;
+}
+.post-markdown > blockquote p { margin: 0; color: var(--teal); font-size: 9px; font-weight: 700; letter-spacing: .18em; }
+.post-markdown > blockquote ul { margin: 15px 0 0; padding-left: 20px; color: #37535c; font-size: 13px; line-height: 2; }
+.post-markdown > ul { margin: 0 0 64px; padding: 0; list-style: none; }
+.post-markdown > ul li { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+.post-markdown > ul a { color: var(--teal); }
+.post-markdown .medical-note { margin-top: 0; }
+.article-body.no-toc { display: block; max-width: 720px; }
 .medical-note { padding: 28px 30px; border: 1px solid var(--line); }
 .medical-note strong { font-size: 12px; }
 .medical-note p { margin: 10px 0 0; color: var(--muted); font-size: 11px; line-height: 1.9; }

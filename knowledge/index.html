@@ -1,29 +1,16 @@
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>脳卒中を知る | 山城貴之</title>
-  <meta name="description" content="脳卒中の基礎、検査、治療、再発予防を、専門用語をほどきながら解説します。">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://takayukiyamashiro.github.io/knowledge/">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css">
-</head>
-<body>
-  <main class="subpage">
-    <header class="subpage-header">
-      <a class="brand" href="/"><span class="brand-mark">TY</span><span class="brand-name">Takayuki Yamashiro</span></a>
-      <a class="back-link" href="/">← Home</a>
-    </header>
-    <section class="index-hero">
-      <p class="section-label">STROKE KNOWLEDGE</p><h1>脳卒中を知る</h1>
-      <p>脳卒中の基礎、検査、治療、再発予防を、専門用語をほどきながら解説します。少しずつ記事を追加し、信頼できる知識の入口を育てていきます。</p>
-    </section>
-    <section class="article-list" aria-label="記事一覧">
-      <a class="article-row" href="/knowledge/stroke-basics/"><span class="article-number">01</span><div><p class="card-category">BASICS · 基礎知識</p><h2>脳梗塞は、なぜ起こるのか</h2><p>血管が詰まる仕組みと、原因によって異なる治療・再発予防の考え方を整理します。</p></div><span class="row-arrow" aria-hidden="true">↗</span></a>
-      <a class="article-row" href="/knowledge/carotid-ultrasound/"><span class="article-number">02</span><div><p class="card-category">EXAMINATION · 検査</p><h2>頸動脈エコーでわかること</h2><p>首の血管を観察する超音波検査。その特徴と、画像・血流から読み取れる情報を解説します。</p></div><span class="row-arrow" aria-hidden="true">↗</span></a>
-      <a class="article-row" href="/knowledge/atrial-fibrillation/"><span class="article-number">03</span><div><p class="card-category">PREVENTION · 再発予防</p><h2>心房細動と脳梗塞の関係</h2><p>不整脈が脳梗塞につながる理由と、リスク評価・抗凝固療法の基本的な考え方を解説します。</p></div><span class="row-arrow" aria-hidden="true">↗</span></a>
-    </section>
-    <footer class="simple-footer"><p>© 2026 Takayuki Yamashiro</p><p>一般的な医学情報であり、個別の診断や治療に代わるものではありません。</p></footer>
-  </main>
-</body>
-</html>
+---
+layout: default
+title: "脳卒中を知る | 山城貴之"
+description: "脳卒中の基礎、検査、治療、再発予防を、専門用語をほどきながら解説します。"
+---
+<main class="subpage">
+  <header class="subpage-header"><a class="brand" href="{{ '/' | relative_url }}"><span class="brand-mark">TY</span><span class="brand-name">Takayuki Yamashiro</span></a><a class="back-link" href="{{ '/' | relative_url }}">← Home</a></header>
+  <section class="index-hero"><p class="section-label">STROKE KNOWLEDGE</p><h1>脳卒中を知る</h1><p>脳卒中の基礎、検査、治療、再発予防を、専門用語をほどきながら解説します。少しずつ記事を追加し、信頼できる知識の入口を育てていきます。</p></section>
+  <section class="article-list" aria-label="記事一覧">
+    {% assign ordered_posts = site.posts | sort: "card_number" %}
+    {% for post in ordered_posts %}
+    <a class="article-row" href="{{ post.url | relative_url }}"><span class="article-number">{{ post.card_number | default: forloop.index }}</span><div><p class="card-category">{{ post.category }}{% if post.category_ja %} · {{ post.category_ja }}{% endif %}</p><h2>{{ post.title }}</h2><p>{{ post.description }}</p></div><span class="row-arrow" aria-hidden="true">↗</span></a>
+    {% endfor %}
+  </section>
+  <footer class="simple-footer"><p>© {{ 'now' | date: '%Y' }} Takayuki Yamashiro</p><p>一般的な医学情報であり、個別の診断や治療に代わるものではありません。</p></footer>
+</main>
