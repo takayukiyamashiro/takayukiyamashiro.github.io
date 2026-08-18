@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>抗Aβ抗体治療 費用・通院負担シミュレーター</title>
+<style>
+:root{
+  --bg:#f4f7fb;
+  --bg2:#eef3f9;
+  --card:rgba(255,255,255,.92);
+  --text:#152132;
+  --muted:#687386;
+  --line:#dfe6ef;
+  --accent:#2855d9;
+  --accent2:#6f8ff0;
+  --accentSoft:#edf2ff;
+  --success:#187a64;
+  --warn:#fff8e8;
+  --shadow:0 18px 45px rgba(26,42,67,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Sans","Yu Gothic UI",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(111,143,240,.16), transparent 28%),
+    radial-gradient(circle at 100% 10%, rgba(40,85,217,.10), transparent 25%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+  min-height:100vh;
+}
+main{max-width:1160px;margin:auto;padding:42px 18px 72px}
+h1{
+  font-size:clamp(28px,4vw,44px);
+  line-height:1.15;
+  margin:0;
+  letter-spacing:-.03em;
+}
+h2{
+  margin:0 0 18px;
+  font-size:20px;
+  letter-spacing:-.01em;
+}
+.lead{
+  color:var(--muted);
+  margin:12px 0 28px;
+  font-size:16px;
+  line-height:1.8;
+}
+.card{
+  background:var(--card);
+  border:1px solid rgba(220,228,239,.95);
+  border-radius:22px;
+  padding:24px;
+  margin:18px 0;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(8px);
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+.field{
+  padding:14px;
+  background:#fbfcfe;
+  border:1px solid #e5eaf2;
+  border-radius:16px;
+  transition:.18s ease;
+}
+.field:hover{border-color:#cfd8e8;box-shadow:0 8px 20px rgba(26,42,67,.04)}
+.field label{
+  display:block;
+  font-weight:800;
+  font-size:14px;
+  margin-bottom:8px;
+  letter-spacing:.01em;
+}
+.field small{
+  display:block;
+  color:var(--muted);
+  margin-top:7px;
+  line-height:1.55;
+  font-size:12px;
+}
+input,select{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid #cfd7e3;
+  border-radius:12px;
+  background:#fff;
+  color:var(--text);
+  font-size:15px;
+  outline:none;
+  transition:.18s ease;
+}
+input:focus,select:focus{
+  border-color:var(--accent2);
+  box-shadow:0 0 0 4px rgba(111,143,240,.14);
+}
+button{
+  border:0;
+  border-radius:13px;
+  padding:13px 20px;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),#4f75e5);
+  color:#fff;
+  box-shadow:0 10px 22px rgba(40,85,217,.20);
+  transition:.18s ease;
+}
+button:hover{transform:translateY(-1px);box-shadow:0 14px 28px rgba(40,85,217,.24)}
+button:active{transform:translateY(0)}
+.scroll{
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+}
+table{width:100%;border-collapse:collapse;min-width:820px}
+th,td{padding:14px 12px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+thead th{
+  background:#f6f8fc;
+  color:#3e4a5c;
+  font-size:13px;
+  font-weight:800;
+  position:sticky;
+  top:0;
+}
+tbody tr:hover{background:#fafcff}
+.big{font-size:22px;font-weight:900;letter-spacing:-.02em}
+.sub{color:var(--muted);font-size:12px}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:4px 8px;
+  border-radius:999px;
+  background:var(--accentSoft);
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+}
+.note{
+  background:linear-gradient(180deg,#fff9ea,#fff6df);
+  border:1px solid #f0d89e;
+  border-radius:15px;
+  padding:15px 16px;
+  line-height:1.7;
+  font-size:13px;
+  color:#5e4d28;
+}
+details{
+  margin-top:14px;
+  border-top:1px solid var(--line);
+  padding-top:12px;
+}
+summary{
+  cursor:pointer;
+  font-weight:800;
+  color:#334155;
+  padding:4px 0;
+}
+.hidden{display:none}
+.barwrap{
+  display:grid;
+  grid-template-columns:190px 1fr 120px;
+  gap:12px;
+  align-items:center;
+  margin:12px 0;
+}
+.bar{
+  height:18px;
+  background:#e8edf6;
+  border-radius:999px;
+  overflow:hidden;
+}
+.bar>div{
+  height:100%;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border-radius:999px;
+}
+#results{
+  border:1px solid rgba(40,85,217,.16);
+  box-shadow:0 22px 55px rgba(40,85,217,.10);
+}
+#insurancePreview{
+  background:linear-gradient(180deg,#eef4ff,#f6f9ff);
+  border-color:#ccd9ff;
+  color:#324364;
+}
+ul{padding-left:1.25rem}
+li{margin:.35rem 0}
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:26px 26px 10px;
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  right:-70px;
+  top:-70px;
+  width:240px;
+  height:240px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(111,143,240,.20),rgba(111,143,240,0) 70%);
+  pointer-events:none;
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-weight:800;
+  color:var(--accent);
+  background:var(--accentSoft);
+  border:1px solid #d8e2ff;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  margin-bottom:12px;
+}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.action-row .hint{font-size:12px;color:var(--muted)}
+.mini-buttons{display:flex;gap:6px;flex-wrap:wrap}
+.mini-buttons button{
+  padding:7px 9px;
+  font-size:12px;
+  background:#64748b;
+  box-shadow:none;
+}
+@media(max-width:720px){
+  main{padding:24px 12px 50px}
+  .card{padding:18px;border-radius:18px}
+  .hero{padding:18px 18px 8px}
+  .barwrap{grid-template-columns:1fr}
+  .bar{height:14px}
+  h2{font-size:18px}
+}
+
+.result-cards{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin:18px 0 22px;
+}
+.result-card{
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:18px;
+  background:linear-gradient(180deg,#ffffff,#f9fbff);
+  box-shadow:0 10px 26px rgba(26,42,67,.06);
+  position:relative;
+  overflow:hidden;
+}
+.result-card:before{
+  content:"";
+  position:absolute;
+  inset:0 auto auto 0;
+  width:100%;
+  height:4px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+}
+.result-card h3{
+  margin:4px 0 4px;
+  font-size:18px;
+  line-height:1.35;
+}
+.result-card .scenario{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:16px;
+}
+.metric{
+  padding:12px 0;
+  border-top:1px solid #edf1f6;
+}
+.metric:first-of-type{border-top:0;padding-top:0}
+.metric-label{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:4px;
+}
+.metric-value{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:-.03em;
+}
+.metric-value.small{
+  font-size:22px;
+}
+.metric-note{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:2px;
+}
+.delta{
+  margin-top:12px;
+  padding:9px 10px;
+  border-radius:12px;
+  background:var(--accentSoft);
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+}
+@media(max-width:900px){
+  .result-cards{grid-template-columns:1fr}
+}
+
+</style>
+</head>
+<body><main>
+<section class="hero">
+<div class="eyebrow">Anti-Aβ Therapy Cost Simulator</div>
+<h1>抗Aβ抗体治療<br>費用・通院負担シミュレーター</h1>
+<p class="lead">レケンビ18か月と、ケサンラ「12か月でPET陰性」「18か月まで継続」の3シナリオを、医療費と通院回数の両面から概算比較します。</p>
+</section>
+
+<section class="card">
+<h2>1. 患者情報</h2>
+<div class="grid">
+ <div class="field"><label>生年月日</label><input id="dob" type="date" value="1957-01-15"><small>70歳・75歳への移行を自動追従します。</small></div>
+ <div class="field"><label>治療開始日</label><input id="start" type="date" value="2026-09-01"><small>2026年8月以降の制度を対象にしています。</small></div>
+ <div class="field"><label>体重（kg）</label><input id="weight" type="number" min="30" max="120" step="0.1" value="60"><small>レケンビは10 mg/kg/回として使用瓶数を計算します。</small></div>
+ <div class="field"><label>おおよその年収</label>
+ <select id="income">
+  <option value="hi3">約1,160万円以上</option>
+  <option value="hi2">約770～1,160万円</option>
+  <option value="mid">約370～770万円</option>
+  <option value="low" selected>約200～370万円</option>
+  <option value="verylow">約200万円未満（課税世帯）</option>
+  <option value="nonTax">住民税非課税</option>
+  <option value="nonTaxLow">住民税非課税・所得が一定以下</option>
+ </select><small>高額療養費の概算区分を決めるために使います。</small></div>
+ <div class="field" id="copay70Field">
+ <label id="copay70Label">70歳以上の窓口負担割合</label>
+ <select id="copay70">
+  <option value="auto" selected>わからない（年収から概算）</option>
+  <option value="1">1割</option>
+  <option value="2">2割</option>
+  <option value="3">3割</option>
+ </select>
+ <small id="copay70Help">生年月日と治療開始日から、必要な場合だけ表示します。</small>
+</div>
+ <div class="field"><label>過去1年間に高額療養費制度を利用しましたか？</label>
+ <select id="prior">
+  <option value="0" selected>利用していない</option>
+  <option value="1">1か月</option>
+  <option value="2">2か月</option>
+  <option value="3">3か月以上</option>
+  <option value="0">わからない（0回として概算）</option>
+ </select>
+ <small>レケンビ・ケサンラ開始前の、他の病気の治療も含みます。多数回該当の計算に使用します。</small></div>
+ <div class="field"><label>アミロイドPET受診にかかる費用（円）</label>
+ <input id="pet" type="number" min="0" step="1000" value="75000">
+ <small>PET検査の自己負担額に、必要なら交通費・航空券・宿泊費・付き添い費用などを加えた概算額を入力してください。</small>
+ <div style="margin-top:9px;padding:10px;border:1px solid #dfe5ee;border-radius:10px;background:#f8fafc">
+  <div style="font-weight:700;font-size:13px;margin-bottom:7px">アミロイドPET検査費の目安</div>
+  <div class="mini-buttons">
+   <button type="button" onclick="setPet(250000)" style="padding:7px 9px;font-size:12px;background:#64748b">自費 約25万円</button>
+   <button type="button" onclick="setPet(75000)" style="padding:7px 9px;font-size:12px;background:#64748b">3割 約7.5万円</button>
+   <button type="button" onclick="setPet(50000)" style="padding:7px 9px;font-size:12px;background:#64748b">2割 約5万円</button>
+   <button type="button" onclick="setPet(25000)" style="padding:7px 9px;font-size:12px;background:#64748b">1割 約2.5万円</button>
+  </div>
+  <small>目安ボタンを押すと入力欄に反映されます。施設により料金は異なります。遠方受診の場合は、反映後に交通・宿泊費等を上乗せして自由に修正してください。</small>
+ </div>
+</div>
+</div>
+<div id="insurancePreview" class="note" style="margin-top:16px"></div>
+<div class="action-row" style="margin-top:18px">
+  <button onclick="calculate()">比較結果を表示</button>
+  <span class="hint">入力内容はブラウザ内だけで計算されます。</span>
+</div>
+</section>
+
+<section id="results" class="card hidden">
+<h2>2. 比較結果</h2>
+<div id="resultCards" class="result-cards"></div>
+<div class="scroll"><table>
+<thead><tr><th></th><th>レケンビ<br><span class="sub">18か月</span></th><th>ケサンラ<br><span class="sub">PET陰性・12か月終了</span></th><th>ケサンラ<br><span class="sub">PET陽性・18か月</span></th></tr></thead>
+<tbody id="summary"></tbody>
+</table></div>
+<div id="bars" style="margin-top:18px"></div>
+<div class="note" style="margin-top:18px">
+<strong>この金額に含めていないもの：</strong>MRI検査費、診察料、点滴手技料、採血費、通常の通院交通費など。<br>
+MRIは原則として点滴とは<strong>別日受診</strong>として通院回数に加えています。症候性ARIAなどに伴う追加MRI・追加受診は含みません。
+</div>
+<details><summary>月ごとの薬剤費自己負担を見る</summary><div class="scroll"><table><thead><tr><th>月</th><th>年齢区分</th><th>レケンビ</th><th>ケサンラ12か月</th><th>ケサンラ18か月</th></tr></thead><tbody id="monthly"></tbody></table></div></details>
+</section>
+
+<section class="card">
+<h2>計算上の前提</h2>
+<ul style="line-height:1.8">
+<li>レケンビ：10 mg/kgを2週間ごと。200 mg瓶・500 mg瓶のうち、必要量を満たす最小薬価の組合せで算出。</li>
+<li>ケサンラ：350 mg → 700 mg → 1050 mg → 以後1400 mgを4週間ごと。</li>
+<li>レケンビMRI：治療開始後の定期MRIを5・7・14回目投与前、その後6か月ごととして計上。2026年6月改訂で推奨された3回目投与前MRIも標準設定として1回加えています。</li>
+<li>ケサンラMRI：2・3・4・7回目投与前、その後6か月ごととして計上。</li>
+<li>治療開始前MRIは両剤とも必要ですが、比較差がないため通院回数には含めていません。</li>
+<li>70歳区分は誕生月の翌月（1日生まれは誕生月）から適用。75歳は誕生日当日から後期高齢者医療制度へ移行します。</li>
+<li>高額療養費は薬剤費のみを対象に月単位で概算します。「おおよその年収」で高額療養費区分を近似し、70歳以上の窓口負担割合は別欄で指定できます。</li>
+</ul>
+<p class="sub">本ツールは患者説明・比較のための概算です。実際の窓口負担・高額療養費は加入保険、標準報酬月額、課税所得、世帯合算、他の医療費、75歳到達月特例等で異なることがあります。</p>
+</section>
+</main>
+<script>
+const LEQ200=38910, LEQ500=97277, KIS350=66948;
+const yen=n=>Math.round(n).toLocaleString("ja-JP")+"円";
+const dparse=s=>new Date(s+"T12:00:00");
+function addDays(d,n){let x=new Date(d);x.setDate(x.getDate()+n);return x}
+function addMonths(d,n){let x=new Date(d);x.setMonth(x.getMonth()+n);return x}
+function ageOn(d,dob){let a=d.getFullYear()-dob.getFullYear(); if(d.getMonth()<dob.getMonth()||(d.getMonth()==dob.getMonth()&&d.getDate()<dob.getDate()))a--;return a}
+function ageClassForMonth(y,m,dob){
+  // 70歳制度：誕生日翌月（1日生まれは当月）から。75歳は誕生日当日だが月表示では75到達月を特記。
+  let probe=new Date(y,m,15,12);
+  let a=ageOn(probe,dob);
+  if(a<70)return "70歳未満";
+  if(a<75)return "70～74歳";
+  return "75歳以上";
+}
+function leqVials(weight){
+ let need=weight*10, best=null;
+ for(let n500=0;n500<=4;n500++)for(let n200=0;n200<=6;n200++){
+  let mg=n500*500+n200*200, cost=n500*LEQ500+n200*LEQ200;
+  if(mg>=need && (!best||cost<best.cost))best={mg,cost,n500,n200};
+ }
+ return best;
+}
+function schedule(start,intervalDays,endMonths){
+ let end=addMonths(start,endMonths), a=[], d=new Date(start);
+ while(d<=end){a.push(new Date(d));d=addDays(d,intervalDays)}
+ return a;
+}
+function monthKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")}
+function monthlyGross(dates,costFn){
+ let o={}; dates.forEach((d,i)=>{let k=monthKey(d);(o[k]??={gross:0,dates:[]});o[k].gross+=costFn(i);o[k].dates.push(d)});return o
+}
+// R8.8-R9.7 and R9.8+ approximation based on MHLW tables.
+// Returns general monthly cap, repeat cap, annual cap, and outpatient individual cap where relevant.
+function rule(date, age, income, copay70){
+ const r9 = date >= new Date("2027-08-01T00:00:00");
+ let band=income;
+ if(!r9){
+   if(band==="low"||band==="verylow") band="low";
+ }
+ let base={share: age<70?0.3:(age<75?0.2:0.1), out:null};
+ if(income==="hi3"||income==="hi2"||income==="mid") base.share=0.3;
+ if(income==="nonTax"||income==="nonTaxLow") base.share=age<70?0.3:(age<75?0.2:0.1);
+ if(age>=70 && copay70 && copay70!=="auto") base.share=(+copay70)/10;
+ if(!r9){
+   const t={
+    hi3:[270300,901000,.01,140100,1680000],
+    hi2:[179100,597000,.01,93000,1110000],
+    mid:[85800,286000,.01,44400,530000],
+    low:[61500,0,0,44400,530000],
+    nonTax:[36900,0,0,24600,290000],
+    nonTaxLow:[36900,0,0,24600,290000]
+   }[band];
+   Object.assign(base,{fixed:t[0],threshold:t[1],rate:t[2],repeat:t[3],annual:t[4]});
+   if(age>=70){
+    if(band==="low"){base.out=22000;base.outAnnual=216000}
+    if(band==="nonTax"){base.out=11000;base.outAnnual=96000;base.fixed=25700;base.repeat=24600;base.annual=290000}
+    if(band==="nonTaxLow"){base.out=8000;base.fixed=15700;base.repeat=null;base.annual=180000}
+   }
+ }else{
+   // User-facing annual-income approximation to R9.8 detailed table.
+   let t;
+   if(income==="hi3") t=[270300,901000,.01,140100,1680000]; // conservative mapping for 1160+; exact sub-band may be higher
+   else if(income==="hi2") t=[179100,597000,.01,93000,1110000];
+   else if(income==="mid") t=[85800,286000,.01,44400,530000]; // maps lower part of broad input band
+   else if(income==="low") t=[69600,0,0,44400,530000];
+   else if(income==="verylow") t=[61500,0,0,34500,410000];
+   else if(income==="nonTax"||income==="nonTaxLow") t=[36900,0,0,24600,290000];
+   Object.assign(base,{fixed:t[0],threshold:t[1],rate:t[2],repeat:t[3],annual:t[4]});
+   if(age>=70){
+    if(income==="low"){base.out=28000;base.outAnnual=216000}
+    if(income==="verylow"){base.out=22000;base.outAnnual=216000}
+    if(income==="nonTax"){base.out=13000;base.outAnnual=96000;base.fixed=25700}
+    if(income==="nonTaxLow"){base.out=8000;base.fixed=15700;base.repeat=null;base.annual=180000}
+   }
+ }
+ return base;
+}
+function capAmount(gross,r,isRepeat){
+ let raw=gross*r.share;
+ let cap=r.fixed + Math.max(0,gross-r.threshold)*r.rate;
+ if(isRepeat && r.repeat!=null)cap=r.repeat;
+ if(r.out!=null)cap=Math.min(cap,r.out);
+ return Math.min(raw,cap);
+}
+function applyInsurance(monthMap,dob,income,prior,copay70){
+ let keys=Object.keys(monthMap).sort(), hist=Array(Math.min(prior,3)).fill("prior"), yearTotals={}, out=[];
+ keys.forEach(k=>{
+  let [y,m]=k.split("-").map(Number), date=new Date(y,m-1,15,12), age=ageOn(date,dob);
+  let r=rule(date,age,income,copay70);
+  let recent=hist.filter(x=>x!=="").length>=3;
+  let pay=capAmount(monthMap[k].gross,r,recent);
+  let qualifies = monthMap[k].gross*r.share > pay+0.5;
+  // annual cap Aug-Jul
+  let fy=(m>=8?y:y-1), fykey=String(fy);
+  let used=yearTotals[fykey]||0;
+  if(r.annual!=null && used+pay>r.annual) pay=Math.max(0,r.annual-used);
+  yearTotals[fykey]=used+pay;
+  if(qualifies)hist.push(k); else hist.push("");
+  if(hist.length>12)hist.shift();
+  out.push({k,gross:monthMap[k].gross,pay,age,cls:ageClassForMonth(y,m-1,dob),repeat:recent});
+ });
+ return out;
+}
+function total(a){return a.reduce((s,x)=>s+x.pay,0)}
+function mergeMonths(arrays){
+ let s=new Set();arrays.forEach(a=>a.forEach(x=>s.add(x.k)));return [...s].sort()
+}
+function getPay(a,k){let x=a.find(z=>z.k===k);return x?x.pay:0}
+
+
+function seventiethEffectiveDate(dob){
+  // 70歳の誕生日の翌月1日。ただし1日生まれは誕生月1日から。
+  const birthday70 = new Date(dob);
+  birthday70.setFullYear(dob.getFullYear()+70);
+  if(birthday70.getDate()===1){
+    return new Date(birthday70.getFullYear(), birthday70.getMonth(), 1, 12);
+  }
+  return new Date(birthday70.getFullYear(), birthday70.getMonth()+1, 1, 12);
+}
+function seventyFifthBirthday(dob){
+  const d=new Date(dob);
+  d.setFullYear(dob.getFullYear()+75);
+  return d;
+}
+function updateAgeDependentFields(){
+  const dobEl=document.getElementById("dob"), startEl=document.getElementById("start");
+  const field=document.getElementById("copay70Field");
+  const label=document.getElementById("copay70Label");
+  const help=document.getElementById("copay70Help");
+  if(!dobEl?.value || !startEl?.value || !field) return;
+
+  const dob=dparse(dobEl.value), st=dparse(startEl.value), end=addMonths(st,18);
+  const age=ageOn(st,dob);
+  const eff70=seventiethEffectiveDate(dob);
+  const b75=seventyFifthBirthday(dob);
+
+  // Hide when the entire comparison period stays under 70.
+  if(end < eff70){
+    field.style.display="none";
+    document.getElementById("copay70").value="auto";
+    return;
+  }
+
+  field.style.display="";
+  if(st < eff70 && end >= eff70){
+    label.textContent="70歳到達後の窓口負担割合";
+    help.textContent="治療中に70歳以上の制度へ移るため、移行後の負担割合を選択します。わからなければ年収から概算します。";
+  } else if(st >= eff70 && st < b75){
+    label.textContent="現在の窓口負担割合（70～74歳）";
+    help.textContent="現在の保険証・資格確認書などに記載される窓口負担割合を選択してください。";
+  } else {
+    label.textContent="現在の窓口負担割合（75歳以上）";
+    help.textContent="後期高齢者医療制度での現在の窓口負担割合を選択してください。";
+  }
+}
+
+function updateInsurancePreview(){
+ const dobEl=document.getElementById("dob"), startEl=document.getElementById("start");
+ const cp=document.getElementById("copay70");
+ const box=document.getElementById("insurancePreview");
+ if(!dobEl.value||!startEl.value||!box)return;
+ const dob=dparse(dobEl.value), st=dparse(startEl.value), end=addMonths(st,18);
+ const a=ageOn(st,dob), eff70=seventiethEffectiveDate(dob), b75=seventyFifthBirthday(dob);
+ let cpText=cp.value==="auto"?"年収から概算":cp.value+"割";
+ let msg=`<strong>保険区分の見え方</strong><br>治療開始時：<strong>${a}歳</strong>。`;
+
+ if(end < eff70){
+   msg+=` 18か月の比較期間中は70歳未満のため、<strong>70歳以上の負担割合の入力は不要</strong>です。`;
+ } else if(st < eff70 && end >= eff70){
+   msg+=` 治療中の <strong>${eff70.getFullYear()}/${eff70.getMonth()+1}/1</strong> から70歳以上の制度へ移ります。`;
+   msg+=`<br>移行後の窓口負担割合は <strong>${cpText}</strong> として計算します。`;
+ } else if(st >= eff70 && st < b75){
+   msg+=` 開始時点ですでに70～74歳です。現在の窓口負担割合は <strong>${cpText}</strong> として計算します。`;
+   if(end >= b75) msg+=`<br>なお、治療中の <strong>${b75.getFullYear()}/${b75.getMonth()+1}/${b75.getDate()}</strong> に75歳になります。`;
+ } else {
+   msg+=` 開始時点ですでに75歳以上です。現在の窓口負担割合は <strong>${cpText}</strong> として計算します。`;
+ }
+ msg+=`<br><span class="sub">※窓口負担割合と高額療養費の所得区分は別物なので、年収入力は残しています。</span>`;
+ box.innerHTML=msg;
+}
+["dob","start","income","copay70"].forEach(id=>document.addEventListener("DOMContentLoaded",()=>document.getElementById(id)?.addEventListener("change",()=>{
+  updateAgeDependentFields();
+  updateInsurancePreview();
+})));
+document.addEventListener("DOMContentLoaded",()=>{
+  updateAgeDependentFields();
+  updateInsurancePreview();
+});
+
+function setPet(amount){
+ const el=document.getElementById("pet");
+ if(el){el.value=amount; el.focus();}
+}
+
+function calculate(){
+ const dob=dparse(document.getElementById("dob").value), start=dparse(document.getElementById("start").value);
+ const weight=+document.getElementById("weight").value, income=document.getElementById("income").value;
+ const copay70=document.getElementById("copay70").value;
+ const prior=+document.getElementById("prior").value, pet=+document.getElementById("pet").value||0;
+ if(!dob||!start||!weight){alert("入力を確認してください");return}
+ if(start<new Date("2026-08-01T00:00:00")){alert("このバージョンは2026年8月以降の治療開始を対象にしています。");return}
+ const lv=leqVials(weight);
+ const leqDates=schedule(start,14,18);
+ const kis12=schedule(start,28,12);
+ const kis18=schedule(start,28,18);
+ const leqM=monthlyGross(leqDates,()=>lv.cost);
+ const k12M=monthlyGross(kis12,i=>(i===0?1:i===1?2:i===2?3:4)*KIS350);
+ const k18M=monthlyGross(kis18,i=>(i===0?1:i===1?2:i===2?3:4)*KIS350);
+ const leq=applyInsurance(leqM,dob,income,prior,copay70), k12=applyInsurance(k12M,dob,income,prior,copay70), k18=applyInsurance(k18M,dob,income,prior,copay70);
+ const vals=[
+  {name:"レケンビ",med:total(leq),pet:0,inf:leqDates.length,mri:6,vis:leq},
+  {name:"ケサンラ PET陰性",med:total(k12),pet,inf:kis12.length,mri:5,vis:k12},
+  {name:"ケサンラ PET陽性",med:total(k18),pet,inf:kis18.length,mri:6,vis:k18}
+ ];
+ vals.forEach(v=>{v.sum=v.med+v.pet;v.visits=v.inf+v.mri+(v.pet?1:0)});
+ const leqBase=vals[0];
+ document.getElementById("resultCards").innerHTML=vals.map((v,i)=>{
+   let deltaCost=v.sum-leqBase.sum;
+   let deltaVisits=v.visits-leqBase.visits;
+   let deltaText="";
+   if(i===0){
+     deltaText="比較の基準";
+   }else{
+     let costText=deltaCost===0?"費用差なし":`${yen(Math.abs(deltaCost))}${deltaCost<0?"安い":"高い"}`;
+     let visitText=deltaVisits===0?"通院回数差なし":`通院 ${Math.abs(deltaVisits)}回${deltaVisits<0?"少ない":"多い"}`;
+     deltaText=`レケンビ比：${costText}・${visitText}`;
+   }
+   return `<div class="result-card">
+     <h3>${v.name}</h3>
+     <div class="scenario">${i===0?"18か月治療":i===1?"12か月PET陰性で終了":"PET陽性・18か月継続"}</div>
+     <div class="metric">
+       <div class="metric-label">概算総負担額</div>
+       <div class="metric-value">${yen(v.sum)}</div>
+       <div class="metric-note">薬剤自己負担＋PET受診費</div>
+     </div>
+     <div class="metric">
+       <div class="metric-label">合計通院回数</div>
+       <div class="metric-value small">${v.visits}回</div>
+       <div class="metric-note">点滴＋MRI別日＋PET受診</div>
+     </div>
+     <div class="metric">
+       <div class="metric-label">点滴 / MRI</div>
+       <div class="metric-value small">${v.inf}回 / ${v.mri}回</div>
+     </div>
+     <div class="delta">${deltaText}</div>
+   </div>`;
+ }).join("");
+ document.getElementById("summary").innerHTML=`
+ <tr><td>薬剤費の概算自己負担</td>${vals.map(v=>`<td>${yen(v.med)}</td>`).join("")}</tr>
+ <tr><td>アミロイドPET受診費</td>${vals.map(v=>`<td>${v.pet?yen(v.pet):"―"}</td>`).join("")}</tr>
+ <tr><td class="big">概算総負担額</td>${vals.map(v=>`<td class="big">${yen(v.sum)}</td>`).join("")}</tr>
+ <tr><td>点滴通院</td>${vals.map(v=>`<td>${v.inf}回</td>`).join("")}</tr>
+ <tr><td>MRI別日受診</td>${vals.map(v=>`<td>${v.mri}回</td>`).join("")}</tr>
+ <tr><td>PET受診</td>${vals.map(v=>`<td>${v.pet?1:0}回</td>`).join("")}</tr>
+ <tr><td class="big">合計通院回数</td>${vals.map(v=>`<td class="big">${v.visits}回</td>`).join("")}</tr>
+ <tr><td>レケンビ使用量/回</td><td>${(weight*10).toFixed(0)}mg（500mg×${lv.n500}＋200mg×${lv.n200}瓶）</td><td>―</td><td>―</td></tr>`;
+ const max=Math.max(...vals.map(v=>v.sum));
+ document.getElementById("bars").innerHTML=vals.map(v=>`<div class="barwrap"><strong>${v.name}</strong><div class="bar"><div style="width:${100*v.sum/max}%"></div></div><strong>${yen(v.sum)}</strong></div>`).join("");
+ const keys=mergeMonths([leq,k12,k18]);
+ document.getElementById("monthly").innerHTML=keys.map(k=>{
+  let x=leq.find(z=>z.k===k)||k12.find(z=>z.k===k)||k18.find(z=>z.k===k);
+  return `<tr><td>${k}</td><td>${x.cls}${x.repeat?' <span class="pill">多数回</span>':''}</td><td>${yen(getPay(leq,k))}</td><td>${yen(getPay(k12,k))}</td><td>${yen(getPay(k18,k))}</td></tr>`
+ }).join("");
+ document.getElementById("results").classList.remove("hidden");
+ document.getElementById("results").scrollIntoView({behavior:"smooth"});
+}
+</script></body></html>
