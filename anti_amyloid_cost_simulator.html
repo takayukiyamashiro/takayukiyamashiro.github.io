@@ -504,7 +504,7 @@ li{margin:.35rem 0}
 <strong>この金額に含めていないもの：</strong>MRI検査費、診察料、点滴手技料、採血費、通常の通院交通費など。<br>
 MRIは原則として点滴とは<strong>別日受診</strong>として通院回数に加えています。症候性ARIAなどに伴う追加MRI・追加受診は含みません。
 </div>
-<details><summary>月ごとの薬剤費自己負担を見る（年間上限反映後）</summary><div class="scroll"><table><thead><tr><th>月</th><th>年齢区分</th><th>レケンビ</th><th>ケサンラ12か月</th><th>ケサンラ 1年後PET陽性・18か月</th></tr></thead><tbody id="monthly"></tbody></table></div></details>
+<details><summary>月ごとの薬剤費自己負担を見る（治療終了月も表示）</summary><div class="scroll"><table><thead><tr><th>月</th><th>年齢区分</th><th>レケンビ</th><th>ケサンラ12か月</th><th>ケサンラ 1年後PET陽性・18か月</th></tr></thead><tbody id="monthly"></tbody></table></div></details>
 </section>
 
 
@@ -847,6 +847,12 @@ function mergeMonths(arrays){
  let ss=new Set();arrays.forEach(a=>a.forEach(x=>ss.add(x.k)));return [...ss].sort()
 }
 function getPay(a,k){let x=a.find(z=>z.k===k);return x?x.pay:0}
+function getPayDisplay(a,k,lastTreatmentMonth){
+  const x=a.find(z=>z.k===k);
+  if(x) return yen(x.pay);
+  if(k>lastTreatmentMonth) return '<span class="sub">治療終了</span>';
+  return yen(0);
+}
 
 function seventiethEffectiveDate(dob){ return seventiethEffectiveDateRaw(dob); }
 function seventyFifthBirthday(dob){ return seventyFifthBirthdayRaw(dob); }
@@ -931,6 +937,9 @@ function calculate(){
  const leqDates=scheduleCount(start,14,39);
  const kis12=scheduleCount(start,28,14);
  const kis18=scheduleCount(start,28,19);
+ const leqLastMonth=monthKey(leqDates[leqDates.length-1]);
+ const k12LastMonth=monthKey(kis12[kis12.length-1]);
+ const k18LastMonth=monthKey(kis18[kis18.length-1]);
  const leqM=monthlyGross(leqDates,()=>lv.cost);
  const k12M=monthlyGross(kis12,i=>(i===0?1:i===1?2:i===2?3:4)*KIS350);
  const k18M=monthlyGross(kis18,i=>(i===0?1:i===1?2:i===2?3:4)*KIS350);
@@ -987,7 +996,7 @@ function calculate(){
  const keys=mergeMonths([leq,k12,k18]);
  document.getElementById("monthly").innerHTML=keys.map(k=>{
   let x=leq.find(z=>z.k===k)||k12.find(z=>z.k===k)||k18.find(z=>z.k===k);
-  return `<tr><td>${k}</td><td>${x.cls}${x.repeat?' <span class="pill">多数回</span>':''}</td><td>${yen(getPay(leq,k))}</td><td>${yen(getPay(k12,k))}</td><td>${yen(getPay(k18,k))}</td></tr>`
+  return `<tr><td>${k}</td><td>${x.cls}${x.repeat?' <span class="pill">多数回</span>':''}</td><td>${getPayDisplay(leq,k,leqLastMonth)}</td><td>${getPayDisplay(k12,k,k12LastMonth)}</td><td>${getPayDisplay(k18,k,k18LastMonth)}</td></tr>`
  }).join("");
  document.getElementById("results").classList.remove("hidden");
  document.getElementById("results").scrollIntoView({behavior:"smooth"});
