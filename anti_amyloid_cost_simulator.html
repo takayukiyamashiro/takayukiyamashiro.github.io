@@ -567,6 +567,7 @@ MRIは原則として点滴とは<strong>別日受診</strong>として通院回
         <li>ケサンラ：350 → 700 → 1050 → 1400 mgの漸増後、4週間ごとの投与として計算</li>
         <li>ケサンラ：12か月PET陰性で終了する場合と、18か月継続する場合を表示</li>
         <li>高額療養費：年齢・所得区分・多数回該当・制度改定時期を反映</li>
+        <li>年間上限は70歳未満を含む対象区分に適用し、毎年8月～翌年7月で累積。到達後の月は月別表に「年間上限到達」と表示</li>
         <li>70歳以上の外来年間上限は、70歳以上の外来特例が適用される期間のみを累積し、70歳未満だった期間の自己負担とは分けて計算</li>
         <li>MRI費、再診料、点滴手技料、通常の通院交通費等は総額に含めません</li>
       </ul>
@@ -614,7 +615,7 @@ MRIは原則として点滴とは<strong>別日受診</strong>として通院回
 <li>高額療養費は薬剤費のみを対象に月単位で概算します。「おおよその年収」で高額療養費区分を近似し、70歳以上の窓口負担割合は別欄で指定できます。</li>
 </ul>
 <div class="note" style="margin-top:16px;background:linear-gradient(180deg,#eefaf6,#f7fcfa);border-color:#bfe1d7;color:#28584f">
-<strong>計算ロジック再検証版（2026年8月）</strong><br>
+<strong>計算ロジック再検証版（2026年8月・年間上限表示対応）</strong><br>
 70歳移行月、75歳到達月の限度額1/2特例、70歳以上の外来年間上限、2027年8月の所得区分細分化を反映しています。
 </div>
 <p class="sub"><strong>ご利用上の注意：</strong>本ツールの表示額は患者説明・比較のための概算です。1円単位の実請求額を算出することを目的としていません。実際の窓口負担・高額療養費は加入保険、標準報酬月額、課税所得、世帯合算、他の医療費、75歳到達月特例等で異なることがあります。</p>
@@ -801,6 +802,7 @@ function applyInsurance(monthMap,dob,income,prior,copay70){
    const is75Split=b75>first && b75<=last && b75.getDate()!==1;
    let recent=hist.filter(Boolean).length>=3;
    let pay=0, gross=monthMap[k].gross, generalTriggered=false, outpatientOnly=false;
+   let annualCapReached=false, annualCapApplied=false;
 
    if(is75Split){
      const before=items.filter(x=>x.date<b75), after=items.filter(x=>x.date>=b75);
@@ -818,12 +820,18 @@ function applyInsurance(monthMap,dob,income,prior,copay70){
      hist=[];
      // 年間上限は到達後の制度区分を用いて概算
      const rAnnual=rule(b75,"75plus",income,copay70);
+     const beforeAnnualPay=pay;
      pay=applyAnnualCaps(pay,rAnnual,y,m,annualGeneralTotals,annualOutpatientTotals,rAnnual.out!=null);
+     annualCapApplied = pay + 0.5 < beforeAnnualPay;
+     annualCapReached = beforeAnnualPay > 0 && pay < 0.5;
    }else{
      const regime=regimeAt(first,dob);
      const r=rule(first,regime,income,copay70);
      const d=capDetails(gross,r,recent);
+     const beforeAnnualPay=d.pay;
      pay=applyAnnualCaps(d.pay,r,y,m,annualGeneralTotals,annualOutpatientTotals,r.out!=null);
+     annualCapApplied = pay + 0.5 < beforeAnnualPay;
+     annualCapReached = beforeAnnualPay > 0 && pay < 0.5;
      generalTriggered=d.generalTriggered;
      outpatientOnly=d.outpatientTriggered&&!d.generalTriggered;
 
@@ -837,7 +845,8 @@ function applyInsurance(monthMap,dob,income,prior,copay70){
      k,gross,pay,
      cls:ageClassForMonth(y,m-1,dob),
      repeat:recent,
-     annualApplied:false
+     annualCapApplied,
+     annualCapReached
    });
  });
  return out;
@@ -849,7 +858,15 @@ function mergeMonths(arrays){
 function getPay(a,k){let x=a.find(z=>z.k===k);return x?x.pay:0}
 function getPayDisplay(a,k,lastTreatmentMonth){
   const x=a.find(z=>z.k===k);
-  if(x) return yen(x.pay);
+  if(x){
+    if(x.annualCapReached){
+      return '<span class="pill" style="background:#eef7ef;color:#2f6b3c">年間上限到達</span>';
+    }
+    if(x.annualCapApplied){
+      return `${yen(x.pay)} <span class="pill" style="background:#eef7ef;color:#2f6b3c">年間上限適用</span>`;
+    }
+    return yen(x.pay);
+  }
   if(k>lastTreatmentMonth) return '<span class="sub">治療終了</span>';
   return yen(0);
 }
