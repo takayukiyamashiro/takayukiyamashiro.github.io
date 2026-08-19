@@ -331,20 +331,39 @@ li{margin:.35rem 0}
   letter-spacing:-.02em;
 }
 .heat-legend{
-  display:flex;
+  display:grid;
+  grid-template-columns:auto auto minmax(140px,220px) auto 1fr;
   align-items:center;
   gap:10px;
-  flex-wrap:wrap;
   color:var(--muted);
   font-size:12px;
   margin-top:14px;
 }
 .heat-grad{
-  width:220px;
+  width:100%;
   height:13px;
   border:1px solid #dce3ec;
   border-radius:999px;
   background:linear-gradient(90deg,#2b6cb0,#f8fafc,#d9485f);
+}
+.heat-pet{
+  justify-self:end;
+  white-space:nowrap;
+}
+@media(max-width:700px){
+  .heat-legend{
+    grid-template-columns:auto 1fr auto;
+    grid-template-areas:
+      "label low high"
+      "bar bar bar"
+      "pet pet pet";
+    gap:7px 8px;
+  }
+  .heat-legend .legend-label{grid-area:label}
+  .heat-legend .legend-low{grid-area:low}
+  .heat-legend .legend-high{grid-area:high;justify-self:end}
+  .heat-legend .heat-grad{grid-area:bar;min-width:0}
+  .heat-legend .heat-pet{grid-area:pet;justify-self:start}
 }
 .heat-wrap{overflow:auto}
 #sensitivityHeat{
@@ -485,7 +504,7 @@ li{margin:.35rem 0}
 <strong>この金額に含めていないもの：</strong>MRI検査費、診察料、点滴手技料、採血費、通常の通院交通費など。<br>
 MRIは原則として点滴とは<strong>別日受診</strong>として通院回数に加えています。症候性ARIAなどに伴う追加MRI・追加受診は含みません。
 </div>
-<details><summary>月ごとの薬剤費自己負担を見る（年間上限反映後）</summary><div class="scroll"><table><thead><tr><th>月</th><th>年齢区分</th><th>レケンビ</th><th>ケサンラ12か月</th><th>ケサンラ18か月</th></tr></thead><tbody id="monthly"></tbody></table></div></details>
+<details><summary>月ごとの薬剤費自己負担を見る（年間上限反映後）</summary><div class="scroll"><table><thead><tr><th>月</th><th>年齢区分</th><th>レケンビ</th><th>ケサンラ12か月</th><th>ケサンラ 1年後PET陽性・18か月</th></tr></thead><tbody id="monthly"></tbody></table></div></details>
 </section>
 
 
@@ -510,18 +529,18 @@ MRIは原則として点滴とは<strong>別日受診</strong>として通院回
     <div>
       <label>比較シナリオ</label>
       <select id="sensMode">
-        <option value="k12">ケサンラ12か月終了 − レケンビ18か月</option>
-        <option value="k18">ケサンラ18か月 − レケンビ18か月</option>
+        <option value="k12">ケサンラ 1年後PET陰性・12か月終了 − レケンビ18か月</option>
+        <option value="k18">ケサンラ 1年後PET陽性・18か月 − レケンビ18か月</option>
       </select>
     </div>
   </div>
 
   <div class="heat-legend">
-    <strong>差額</strong>
-    <span>ケサンラが安い</span>
+    <strong class="legend-label">差額</strong>
+    <span class="legend-low">ケサンラが安い</span>
     <div class="heat-grad"></div>
-    <span>ケサンラが高い</span>
-    <span style="margin-left:auto">PET受診費：<strong id="sensPetLabel">—</strong></span>
+    <span class="legend-high">ケサンラが高い</span>
+    <span class="heat-pet">PET受診費：<strong id="sensPetLabel">—</strong></span>
   </div>
 
   <div class="heat-wrap" style="margin-top:14px">
@@ -899,8 +918,8 @@ function calculate(){
  const leq=applyInsurance(leqM,dob,income,prior,copay70), k12=applyInsurance(k12M,dob,income,prior,copay70), k18=applyInsurance(k18M,dob,income,prior,copay70);
  const vals=[
   {name:"レケンビ",med:total(leq),pet:0,inf:leqDates.length,mri:6,vis:leq},
-  {name:"ケサンラ PET陰性",med:total(k12),pet,inf:kis12.length,mri:5,vis:k12},
-  {name:"ケサンラ PET陽性",med:total(k18),pet,inf:kis18.length,mri:5,vis:k18}
+  {name:"ケサンラ 1年後PET陰性",med:total(k12),pet,inf:kis12.length,mri:5,vis:k12},
+  {name:"ケサンラ 1年後PET陽性",med:total(k18),pet,inf:kis18.length,mri:5,vis:k18}
  ];
  vals.forEach(v=>{v.sum=v.med+v.pet;v.visits=v.inf+v.mri+(v.pet?1:0)});
  const leqBase=vals[0];
