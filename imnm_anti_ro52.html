@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>免疫介在性壊死性ミオパチーと抗Ro52抗体の位置づけ</title>
+  <meta name="description" content="免疫介在性壊死性ミオパチー（IMNM）の分類・診断・治療と、抗Ro52抗体および抗SS-A/Ro抗体の解釈を文献に基づいて整理します。">
+  <meta name="author" content="Takayuki Yamashiro">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="免疫介在性壊死性ミオパチーと抗Ro52抗体の位置づけ">
+  <meta property="og:description" content="IMNMの分類・診断・治療と、抗Ro52抗体および抗SS-A/Ro抗体の解釈を文献に基づいて整理。">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary">
+  <style>
+    :root {
+      --ink: #24313d;
+      --muted: #61707d;
+      --navy: #17324d;
+      --blue: #235f89;
+      --teal: #177b79;
+      --pale: #eef7f6;
+      --line: #dce4e9;
+      --paper: #ffffff;
+      --background: #f5f7f9;
+      --warning: #fff8e7;
+      --warning-line: #d29b2c;
+      --max-width: 920px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--background);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN",
+        "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      font-size: 17px;
+      line-height: 1.9;
+      overflow-wrap: anywhere;
+    }
+
+    a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+    a:hover { color: var(--teal); }
+
+    .site-header {
+      background: linear-gradient(135deg, var(--navy), #244e69 65%, #216b70);
+      color: #fff;
+    }
+
+    .site-header__inner,
+    main,
+    .site-footer__inner {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin-inline: auto;
+    }
+
+    .site-header__inner { padding: 20px 0 46px; }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.92rem;
+      text-decoration: none;
+    }
+
+    .home-link:hover { color: #fff; }
+
+    .eyebrow {
+      margin: 34px 0 8px;
+      color: #bde9e6;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 18em;
+      margin: 0;
+      color: #fff;
+      font-size: clamp(2rem, 5.5vw, 3.2rem);
+      line-height: 1.3;
+      letter-spacing: 0.01em;
+    }
+
+    .lead {
+      max-width: 48rem;
+      margin: 20px 0 0;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 1.05rem;
+    }
+
+    .article-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-top: 20px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.86rem;
+    }
+
+    main {
+      margin-top: -22px;
+      margin-bottom: 56px;
+      padding: clamp(24px, 5vw, 54px);
+      background: var(--paper);
+      border: 1px solid rgba(220, 228, 233, 0.9);
+      border-radius: 14px;
+      box-shadow: 0 16px 44px rgba(30, 55, 75, 0.08);
+    }
+
+    .summary-box,
+    .note-box,
+    .caution-box {
+      margin: 1.5rem 0;
+      padding: 1.1rem 1.25rem;
+      border-radius: 8px;
+    }
+
+    .summary-box {
+      background: var(--pale);
+      border-left: 5px solid var(--teal);
+    }
+
+    .note-box {
+      background: #f2f6fa;
+      border-left: 5px solid var(--blue);
+    }
+
+    .caution-box {
+      background: var(--warning);
+      border-left: 5px solid var(--warning-line);
+    }
+
+    .summary-box > :first-child,
+    .note-box > :first-child,
+    .caution-box > :first-child { margin-top: 0; }
+
+    .summary-box > :last-child,
+    .note-box > :last-child,
+    .caution-box > :last-child { margin-bottom: 0; }
+
+    .toc {
+      margin: 2.3rem 0 3rem;
+      padding: 1.25rem 1.4rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfd;
+    }
+
+    .toc h2 {
+      margin: 0 0 0.65rem;
+      padding: 0;
+      border: 0;
+      font-size: 1.05rem;
+    }
+
+    .toc ol {
+      columns: 2;
+      column-gap: 2.5rem;
+      margin: 0;
+      padding-left: 1.5rem;
+      font-size: 0.93rem;
+    }
+
+    .toc li { break-inside: avoid; margin: 0.22rem 0; }
+
+    section { scroll-margin-top: 20px; }
+
+    h2 {
+      margin: 3.2rem 0 1.15rem;
+      padding-bottom: 0.55rem;
+      color: var(--navy);
+      border-bottom: 2px solid var(--line);
+      font-size: clamp(1.35rem, 3vw, 1.7rem);
+      line-height: 1.5;
+    }
+
+    h3 {
+      margin: 2rem 0 0.65rem;
+      color: #294e67;
+      font-size: 1.14rem;
+      line-height: 1.6;
+    }
+
+    p { margin: 0.85rem 0; }
+    ul, ol { padding-left: 1.45rem; }
+    li { margin: 0.35rem 0; }
+
+    .citation {
+      white-space: nowrap;
+      font-size: 0.82em;
+      font-weight: 700;
+      text-decoration: none;
+      vertical-align: 0.12em;
+    }
+
+    .table-wrap {
+      margin: 1.4rem 0;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 620px;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+      line-height: 1.65;
+    }
+
+    th, td {
+      padding: 0.78rem 0.85rem;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { color: var(--navy); background: #edf3f7; }
+    tr:last-child td { border-bottom: 0; }
+
+    .references {
+      padding-left: 2.25rem;
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+
+    .references li {
+      margin: 0 0 0.95rem;
+      padding-left: 0.25rem;
+      scroll-margin-top: 20px;
+    }
+
+    .back-to-top {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .site-footer {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .site-footer__inner {
+      padding: 0 0 38px;
+      text-align: center;
+    }
+
+    @media (max-width: 680px) {
+      body { font-size: 16px; }
+      .site-header__inner { padding-bottom: 38px; }
+      main { width: min(calc(100% - 20px), var(--max-width)); padding: 25px 20px 36px; }
+      .toc ol { columns: 1; }
+      h2 { margin-top: 2.6rem; }
+    }
+
+    @media print {
+      body { background: #fff; font-size: 10.5pt; }
+      .site-header { background: #fff; color: #000; }
+      .site-header__inner, main { width: 100%; }
+      .home-link, .back-to-top, .toc { display: none; }
+      .eyebrow, h1, .lead, .article-meta { color: #000; }
+      main { margin: 0; padding: 0; border: 0; box-shadow: none; }
+      a { color: inherit; text-decoration: none; }
+      h2, h3 { break-after: avoid; }
+      table, .summary-box, .note-box, .caution-box { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body id="top">
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="home-link" href="/" aria-label="サイトのトップページへ戻る">← Home</a>
+      <p class="eyebrow">Clinical Note</p>
+      <h1>免疫介在性壊死性ミオパチーと抗Ro52抗体の位置づけ</h1>
+      <p class="lead">IMNMの分類・診断・治療、および抗SS-A/Ro、抗Ro52、抗Ro60抗体を臨床でどう解釈するかを、文献に基づいて整理する。</p>
+      <div class="article-meta">
+        <span>公開・更新：2026年8月20日</span>
+        <span>対象：医療従事者</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="summary-box" aria-label="要点">
+      <strong>要点：</strong>抗Ro52抗体は、筋炎特異抗体（MSA）ではなく筋炎関連抗体（MAA）である。筋炎患者における陽性は、とくに間質性肺疾患（ILD）の合併や重症度を考えるうえで有用だが、抗Ro52抗体のみで筋炎の病型を決めることはできない。また、個別測定で抗Ro52抗体陽性が確認されている場合、その結果を抗Ro60抗体に「引っ張られた」偽の陽性と解釈する根拠はない。
+    </div>
+
+    <nav class="toc" aria-label="目次">
+      <h2>目次</h2>
+      <ol>
+        <li><a href="#imnm-concept">IMNMの疾患概念</a></li>
+        <li><a href="#pathology">筋病理</a></li>
+        <li><a href="#classification">IMNMの分類</a></li>
+        <li><a href="#malignancy">悪性腫瘍との関連</a></li>
+        <li><a href="#treatment">治療</a></li>
+        <li><a href="#pathogenicity">病原性を示す実験的根拠</a></li>
+        <li><a href="#testing">国内での抗体検査</a></li>
+        <li><a href="#ssa">抗SS-A/Ro、Ro52、Ro60</a></li>
+        <li><a href="#ro52-myositis">筋炎における抗Ro52抗体</a></li>
+        <li><a href="#entity">「抗Ro52陽性筋炎」は疾患概念か</a></li>
+        <li><a href="#sjogren">Sjögren病とIMNM</a></li>
+        <li><a href="#conclusion">結論</a></li>
+        <li><a href="#references">参考文献</a></li>
+      </ol>
+    </nav>
+
+    <article>
+      <section id="imnm-concept">
+        <h2>1．IMNMの疾患概念</h2>
+        <p>免疫介在性壊死性ミオパチー（immune-mediated necrotizing myopathy：IMNM）は、2003年の第119回European Neuromuscular Centre（ENMC）ワークショップで、特発性炎症性筋疾患の一病型として整理された。その後、2016年の第224回ENMCワークショップで、臨床・血清学・病理学的分類が改めて提示された。<a class="citation" href="#ref-1">［1］</a><a class="citation" href="#ref-2">［2］</a></p>
+        <p>典型的には、四肢近位筋優位の左右対称性筋力低下と著明な血清CK（CPK）高値を呈する。嚥下障害、頸部屈筋筋力低下、呼吸筋障害を伴うこともある。<a class="citation" href="#ref-2">［2］</a><a class="citation" href="#ref-3">［3］</a></p>
+        <div class="caution-box">
+          <strong>CKの解釈：</strong>「CKは病勢を反映しない」と一律に表現するのは適切ではない。IMNMではCKは一般に疾患活動性や治療反応を追う有用な指標である。ただし、筋力との時間的なずれ、慢性期の筋萎縮・脂肪置換、治療後の残存筋力低下などにより、CK値と臨床的重症度が一致しないことはある。<a class="citation" href="#ref-3">［3］</a>
+        </div>
+      </section>
+
+      <section id="pathology">
+        <h2>2．筋病理</h2>
+        <p>筋病理では、筋線維の壊死と再生が目立ち、非壊死筋線維へのリンパ球浸潤は乏しいことが典型である。壊死線維周囲にはマクロファージ浸潤を認めることが多く、MHC class I発現亢進や補体沈着を伴う場合もある。<a class="citation" href="#ref-2">［2］</a><a class="citation" href="#ref-3">［3］</a></p>
+        <p>ただし、炎症細胞浸潤が「まったくない」ことを診断条件とするわけではない。病理像は採取部位、病期、先行治療の影響を受けるため、臨床像・自己抗体・筋MRI・電気生理所見と統合して判断する。</p>
+      </section>
+
+      <section id="classification">
+        <h2>3．IMNMの分類</h2>
+        <p>現在のIMNMは、主に次の3群に分類される。<a class="citation" href="#ref-2">［2］</a></p>
+        <div class="table-wrap" role="region" aria-label="IMNMの分類表" tabindex="0">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">血清学的分類</th>
+                <th scope="col">臨床上の特徴</th>
+                <th scope="col">診断上の位置づけ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>抗SRP抗体陽性</td>
+                <td>重度の筋力低下、嚥下障害、筋萎縮を来しやすく、治療抵抗性の場合がある</td>
+                <td>IMNMを規定する主要なMSA</td>
+              </tr>
+              <tr>
+                <td>抗HMGCR抗体陽性</td>
+                <td>スタチン曝露例だけでなく、非曝露例にも生じる</td>
+                <td>IMNMを規定する主要なMSA</td>
+              </tr>
+              <tr>
+                <td>抗体陰性（seronegative）</td>
+                <td>臨床的に不均一で、悪性腫瘍との関連に注意する</td>
+                <td>筋生検による壊死性ミオパチーの確認が重要</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>報告集団や測定法により差があるが、抗SRP抗体陽性はおおむね20～40％、抗HMGCR抗体陽性は25～50％程度とされる。<a class="citation" href="#ref-2">［2］</a><a class="citation" href="#ref-3">［3］</a></p>
+        <p>典型的臨床像を伴う抗SRP抗体または抗HMGCR抗体陽性例では、必ずしも筋生検を要しないとする分類基準がある。一方、両抗体陰性例では、他疾患を除外し、筋病理で壊死性ミオパチーを確認する意義が大きい。<a class="citation" href="#ref-2">［2］</a></p>
+      </section>
+
+      <section id="malignancy">
+        <h2>4．悪性腫瘍との関連</h2>
+        <p>悪性腫瘍合併リスクは、抗SRP抗体陽性例では明確な上昇に乏しく、抗HMGCR抗体陽性例では報告により一定しない。抗SRP・抗HMGCR抗体がともに陰性のIMNMでは、悪性腫瘍との関連が比較的強い。<a class="citation" href="#ref-4">［4］</a></p>
+        <p>したがって、血清学的サブタイプ、年齢、症候、一般的ながん検診歴を踏まえた悪性腫瘍検索が必要である。とくに診断前後数年間は注意する。</p>
+      </section>
+
+      <section id="treatment">
+        <h2>5．治療</h2>
+        <p>ランダム化比較試験に基づく確立した標準治療は限られるが、一般に副腎皮質ステロイド単独では不十分なことが多く、早期から免疫抑制薬やIVIgを併用する。<a class="citation" href="#ref-2">［2］</a><a class="citation" href="#ref-5">［5］</a></p>
+        <ul>
+          <li>副腎皮質ステロイド</li>
+          <li>免疫抑制薬：メトトレキサート、アザチオプリン、ミコフェノール酸モフェチルなど</li>
+          <li>免疫グロブリン大量静注療法（IVIg）</li>
+          <li>リツキシマブ</li>
+        </ul>
+        <p>抗HMGCR抗体陽性例ではIVIg、抗SRP抗体陽性例ではリツキシマブが選択肢になりやすいが、治療は重症度、嚥下・呼吸障害、併存疾患、反応性に応じて個別化する。筋力回復には時間を要し、免疫学的活動性の制御後も筋萎縮や脂肪置換が残る場合がある。<a class="citation" href="#ref-5">［5］</a></p>
+      </section>
+
+      <section id="pathogenicity">
+        <h2>6．病原性を示す実験的根拠</h2>
+        <p>抗SRP抗体または抗HMGCR抗体を含む患者由来IgGをマウスへ受動移入すると、筋力低下と筋線維障害が生じることが報告されている。この変化には補体、とくにC3が関与する。<a class="citation" href="#ref-6">［6］</a></p>
+        <p>これは両抗体の直接的病原性を支持する重要なin vivo evidenceである。ただし、ヒトのIMNMの成立・慢性化を抗体だけで完全に説明できるという意味ではなく、細胞性免疫や筋再生機構などの関与も考慮される。</p>
+      </section>
+
+      <section id="testing">
+        <h2>7．国内での抗体検査</h2>
+        <h3>筋炎関連抗体セット（MYO）</h3>
+        <p>BMLの筋炎関連抗体セット（MYO）では、Mi-2、Ku、PM-Scl100、PM-Scl75、SRP、Jo-1、PL-7、PL-12、OJ、EJ、Ro52の11抗体を測定する。抗HMGCR抗体は含まれない。<a class="citation" href="#ref-7">［7］</a></p>
+        <p>費用は施設により異なるが、17,000～20,000円程度が目安となる。なお、ラインブロット法による抗SRP抗体陰性は、免疫沈降法など別法で検出される抗SRP抗体を完全には除外しない。</p>
+
+        <h3>壊死性ミオパチー関連自己抗体検査</h3>
+        <p>コスミックコーポレーションでは、抗SRP抗体と抗HMGCR抗体を同時に測定する壊死性ミオパチー関連自己抗体検査を受託している。2026年8月時点の案内価格は34,000円、税込37,400円で、保険適用外である。<a class="citation" href="#ref-8">［8］</a></p>
+        <div class="note-box">
+          <strong>実務上のポイント：</strong>筋炎関連抗体セットで抗Ro52抗体陽性のみであっても、それだけでIMNMや特定の筋炎サブタイプを確定できない。IMNMを疑う臨床像・病理像があれば、抗HMGCR抗体を含む適切な追加検査を検討する。
+        </div>
+      </section>
+
+      <section id="ssa">
+        <h2>8．抗SS-A/Ro、抗Ro52、抗Ro60抗体</h2>
+        <p>「SS-A/Ro」という名称の下には、Ro52（TRIM21）とRo60（TROVE2）という分子量も機能も異なる2つの抗原が含まれる。両者はかつて同一複合体の構成要素のように扱われたが、現在は別個の蛋白であり、抗Ro52抗体と抗Ro60抗体はそれぞれ異なる自己抗体として理解される。両抗体に本質的な交差反応性はない。<a class="citation" href="#ref-9">［9］</a><a class="citation" href="#ref-10">［10］</a></p>
+        <div class="table-wrap" role="region" aria-label="Ro52とRo60の比較表" tabindex="0">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">項目</th>
+                <th scope="col">Ro52</th>
+                <th scope="col">Ro60</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>蛋白名</td>
+                <td>TRIM21</td>
+                <td>TROVE2</td>
+              </tr>
+              <tr>
+                <td>主な機能</td>
+                <td>E3ユビキチンリガーゼ、細胞内抗体受容体、自然免疫調節</td>
+                <td>異常RNAの品質管理、Y RNAとの複合体形成</td>
+              </tr>
+              <tr>
+                <td>臨床的関連</td>
+                <td>筋炎、Sjögren病、SLE、全身性強皮症、自己免疫性肝疾患など</td>
+                <td>Sjögren病、SLEなど</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>抗SS-A/Ro抗体測定系がRo52とRo60のどちらを、あるいは両方を抗原として含むかは、測定法の一般名だけではなく、個々の試薬・キットに依存する。したがって、「CLEIAならRo60のみ」「FEIAなら必ずRo52とRo60の両方」と一律には断定せず、採用キットの添付文書で抗原組成を確認する必要がある。混合抗原による包括的測定では、抗原構成やエピトープ提示の違いにより、一方の抗体を十分に検出できないことがある。<a class="citation" href="#ref-9">［9］</a><a class="citation" href="#ref-10">［10］</a></p>
+        <div class="summary-box">
+          <strong>「Ro60に引っ張られた」とは何か：</strong>抗SS-A/Ro抗体だけを包括的に測定した場合、「高値の原因がRo52かRo60か判別できない」という意味なら成立する。しかし、筋炎抗体パネルなどで抗Ro52抗体が個別に3＋と確認されている場合、Ro60の共存の有無にかかわらず、抗Ro52抗体陽性という結果自体は有効である。Ro60が抗Ro52の個別測定を陽性にした、と考えるのは両者に交差反応性がない以上、通常は無理がある。問題になるのは抗体の<strong>存在</strong>ではなく、その抗体を筋炎の<strong>原因・分類抗体としてどこまで帰属させるか</strong>である。
+        </div>
+      </section>
+
+      <section id="ro52-myositis">
+        <h2>9．筋炎における抗Ro52抗体</h2>
+        <p>抗Ro52抗体は、筋炎特異抗体（myositis-specific antibody：MSA）ではなく、筋炎関連抗体（myositis-associated antibody：MAA）に位置づけられる。筋炎以外にもSjögren病、SLE、全身性強皮症、自己免疫性肝疾患などで認められるため、抗Ro52抗体陽性だけでは特発性炎症性筋疾患の診断特異性はない。<a class="citation" href="#ref-10">［10］</a></p>
+        <p>一方、筋炎患者に抗Ro52抗体を認める場合、とくにILDの合併、重症化、予後との関連が報告されている。抗ARS抗体や抗MDA5抗体との共存時に、その臨床的意義が強く表れる可能性がある。<a class="citation" href="#ref-11">［11］</a></p>
+        <p>抗Jo-1抗体陽性筋炎の検討では、抗Ro52抗体は抗Ro60抗体とは異なる臨床関連を示し、両者を分けて評価する意義が示されている。<a class="citation" href="#ref-12">［12］</a></p>
+      </section>
+
+      <section id="entity">
+        <h2>10．「抗Ro52陽性筋炎」は独立した疾患概念か</h2>
+        <p>「抗Ro52陽性筋炎」という表現は、抗Ro52抗体を有する筋炎患者群を指す記述的呼称としては使用される。しかし、抗Ro52抗体によって定義される独立した筋炎サブタイプが確立しているわけではない。</p>
+        <div class="table-wrap" role="region" aria-label="筋炎抗体の位置づけ" tabindex="0">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">抗体</th>
+                <th scope="col">主な位置づけ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>抗ARS抗体</td>
+                <td>抗合成酵素症候群</td>
+              </tr>
+              <tr>
+                <td>抗MDA5抗体</td>
+                <td>MDA5陽性皮膚筋炎／clinically amyopathic DM</td>
+              </tr>
+              <tr>
+                <td>抗TIF1γ、抗NXP2、抗Mi-2、抗SAE抗体</td>
+                <td>皮膚筋炎の血清学的サブタイプ</td>
+              </tr>
+              <tr>
+                <td>抗SRP、抗HMGCR抗体</td>
+                <td>IMNMの血清学的サブタイプ</td>
+              </tr>
+              <tr>
+                <td>抗Ro52抗体</td>
+                <td>基礎となる筋炎病型に重なり、主に肺病変リスクや重症度を修飾するMAA</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>したがって、抗Ro52抗体は「筋炎を分類する主抗体」ではなく、基礎となる筋炎病型の上に重なる修飾因子として捉えるのが実用的である。</p>
+      </section>
+
+      <section id="sjogren">
+        <h2>11．Sjögren病とIMNM</h2>
+        <p>Sjögren病にIMNMを合併した症例報告は存在する。<a class="citation" href="#ref-13">［13］</a> ただし、Sjögren病で抗Ro52抗体が陽性であることと、その抗体が壊死性筋障害を直接引き起こしたことは同義ではない。</p>
+        <p>筋病理がIMNMに合致し、抗SRP抗体・抗HMGCR抗体が陰性で、抗Ro52抗体が共存する場合は、現時点では「抗SRP／抗HMGCR抗体陰性IMNMに抗Ro52抗体が併存した例」と記述するのが妥当であり、抗Ro52抗体をIMNMの第4の分類抗体と扱う根拠は乏しい。</p>
+      </section>
+
+      <section id="conclusion">
+        <h2>12．結論</h2>
+        <ul>
+          <li>抗Ro52抗体と抗Ro60抗体は別の抗原を認識し、本質的な交差反応性はない。</li>
+          <li>包括的な抗SS-A/Ro抗体陽性だけでは、Ro52とRo60のどちらに由来するか判別できない。</li>
+          <li>抗Ro52抗体が個別測定で陽性なら、抗Ro60抗体が共存していても「抗Ro52抗体陽性」という事実は変わらない。</li>
+          <li>抗Ro52抗体はMAAであり、単独では筋炎の診断や病型を規定しない。</li>
+          <li>筋炎における主な意義は、ILD合併・重症化などのリスク修飾因子としての位置づけである。</li>
+          <li>IMNMの診断と分類は、臨床像、CK、筋MRI、針筋電図、筋病理、抗SRP抗体、抗HMGCR抗体を統合して行う。</li>
+        </ul>
+      </section>
+
+      <section id="references">
+        <h2>参考文献</h2>
+        <ol class="references">
+          <li id="ref-1">Hoogendijk JE, Amato AA, Lecky BR, et al. 119th ENMC international workshop: trial design in adult idiopathic inflammatory myopathies, with the exception of inclusion body myositis. <em>Neuromuscul Disord.</em> 2004;14:337–345. <a href="https://doi.org/10.1016/j.nmd.2004.02.006" target="_blank" rel="noopener noreferrer">doi:10.1016/j.nmd.2004.02.006</a></li>
+          <li id="ref-2">Allenbach Y, Mammen AL, Benveniste O, Stenzel W; Immune-Mediated Necrotizing Myopathies Working Group. 224th ENMC International Workshop: clinico-sero-pathological classification of immune-mediated necrotizing myopathies. <em>Neuromuscul Disord.</em> 2018;28:87–99. <a href="https://doi.org/10.1016/j.nmd.2017.09.016" target="_blank" rel="noopener noreferrer">doi:10.1016/j.nmd.2017.09.016</a></li>
+          <li id="ref-3">Pinal-Fernandez I, Casal-Dominguez M, Mammen AL. Immune-mediated necrotizing myopathy. <em>Curr Rheumatol Rep.</em> 2018;20:21. <a href="https://doi.org/10.1007/s11926-018-0732-6" target="_blank" rel="noopener noreferrer">doi:10.1007/s11926-018-0732-6</a></li>
+          <li id="ref-4">Allenbach Y, Keraen J, Bouvier AM, et al. High risk of cancer in autoimmune necrotizing myopathies: usefulness of myositis specific antibody. <em>Brain.</em> 2016;139:2131–2135. <a href="https://doi.org/10.1093/brain/aww054" target="_blank" rel="noopener noreferrer">doi:10.1093/brain/aww054</a></li>
+          <li id="ref-5">Suh J, Amato AA. Management of immune-mediated necrotizing myopathy. <em>Muscle Nerve.</em> 2024;70:166–172. <a href="https://doi.org/10.1002/mus.28114" target="_blank" rel="noopener noreferrer">doi:10.1002/mus.28114</a></li>
+          <li id="ref-6">Bergua C, Chiavelli H, Allenbach Y, et al. In vivo pathogenicity of IgG from patients with anti-SRP or anti-HMGCR autoantibodies in immune-mediated necrotising myopathy. <em>Ann Rheum Dis.</em> 2019;78:131–139. <a href="https://doi.org/10.1136/annrheumdis-2018-213518" target="_blank" rel="noopener noreferrer">doi:10.1136/annrheumdis-2018-213518</a></li>
+          <li id="ref-7">ビー・エム・エル．筋炎関連抗体セット（MYO）．<a href="https://uwb01.bml.co.jp/kensa/search/detail/4404675" target="_blank" rel="noopener noreferrer">検査案内</a>（2026年8月20日閲覧）．</li>
+          <li id="ref-8">コスミックコーポレーション．壊死性ミオパチー関連自己抗体検査．<a href="https://www.cosmic-jpn.co.jp/assay_services/I-0000000011" target="_blank" rel="noopener noreferrer">受託検査案内</a>（2026年8月20日閲覧）．</li>
+          <li id="ref-9">Lee AYS, Reed JH, Gordon TP. Anti-Ro60 and anti-Ro52/TRIM21: two distinct autoantibodies in systemic autoimmune diseases. <em>J Autoimmun.</em> 2021;124:102724. <a href="https://doi.org/10.1016/j.jaut.2021.102724" target="_blank" rel="noopener noreferrer">doi:10.1016/j.jaut.2021.102724</a></li>
+          <li id="ref-10">Chan EKL. Anti-Ro52 autoantibody: from specificity to clinical utility. <em>Clin Rev Allergy Immunol.</em> 2022;63:178–193. <a href="https://doi.org/10.1007/s12016-021-08911-z" target="_blank" rel="noopener noreferrer">doi:10.1007/s12016-021-08911-z</a></li>
+          <li id="ref-11">Weng CT, Huang TH, Wu CH, Sun YT. Association of anti-Ro-52 antibodies with occurrence of interstitial lung disease in patients with idiopathic inflammatory myopathy: a systematic review and meta-analysis. <em>Arthritis Res Ther.</em> 2024;26:152. <a href="https://doi.org/10.1186/s13075-024-03382-x" target="_blank" rel="noopener noreferrer">doi:10.1186/s13075-024-03382-x</a></li>
+          <li id="ref-12">Yamaguchi K, Tang Q, Poland P, et al. Clinical features of anti-Jo-1-positive myositis with anti-Ro52 and/or anti-Ro60 antibodies. <em>Front Immunol.</em> 2024;15:1399451. <a href="https://doi.org/10.3389/fimmu.2024.1399451" target="_blank" rel="noopener noreferrer">doi:10.3389/fimmu.2024.1399451</a></li>
+          <li id="ref-13">髙橋信敬，西田明弘，津川潤，ほか．原発性シェーグレン症候群に合併した免疫介在性壊死性ミオパチーの1例．<em>BRAIN and NERVE.</em> 2021;73:183–187. <a href="https://doi.org/10.11477/mf.1416201731" target="_blank" rel="noopener noreferrer">doi:10.11477/mf.1416201731</a></li>
+        </ol>
+      </section>
+
+      <div class="caution-box">
+        <strong>注記：</strong>本稿は医療従事者向けの学術的整理であり、個別症例の診断・治療を代替するものではない。検査項目、測定法、価格、保険適用は変更される可能性があるため、実施時には各検査機関の最新情報を確認すること。
+      </div>
+      <a class="back-to-top" href="#top">↑ ページ上部へ戻る</a>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">© Takayuki Yamashiro</div>
+  </footer>
+</body>
+</html>
