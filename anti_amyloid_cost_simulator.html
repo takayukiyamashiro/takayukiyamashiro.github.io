@@ -494,6 +494,7 @@ li{margin:.35rem 0}
 
 <section id="results" class="card hidden">
 <h2>2. 比較結果</h2>
+<div id="historicalStartNote" class="note" style="display:none;margin-bottom:14px"></div>
 <div id="resultCards" class="result-cards"></div>
 <div class="scroll"><table>
 <thead><tr><th></th><th>レケンビ<br><span class="sub">18か月</span></th><th>ケサンラ<br><span class="sub">PET陰性・12か月終了</span></th><th>ケサンラ<br><span class="sub">PET陽性・18か月</span></th></tr></thead>
@@ -566,7 +567,7 @@ MRIは原則として点滴とは<strong>別日受診</strong>として通院回
         <li>レケンビ：体重10 mg/kg、2週間ごとの投与を基本として薬剤費を計算</li>
         <li>ケサンラ：350 → 700 → 1050 → 1400 mgの漸増後、4週間ごとの投与として計算</li>
         <li>ケサンラ：12か月PET陰性で終了する場合と、18か月継続する場合を表示</li>
-        <li>高額療養費：年齢・所得区分・多数回該当・制度改定時期を反映</li>
+        <li>高額療養費：治療月ごとの年齢・所得区分・多数回該当・制度改定時期を反映</li>
         <li>年間上限は70歳未満を含む対象区分に適用し、毎年8月～翌年7月で累積。到達後の月は月別表に「年間上限到達」と表示</li>
         <li>70歳以上の外来年間上限は、70歳以上の外来特例が適用される期間のみを累積し、70歳未満だった期間の自己負担とは分けて計算</li>
         <li>MRI費、再診料、点滴手技料、通常の通院交通費等は総額に含めません</li>
@@ -605,9 +606,15 @@ MRIは原則として点滴とは<strong>別日受診</strong>として通院回
 
 <section class="card">
 <h2>計算上の前提</h2>
+<div class="note" style="margin-bottom:14px;background:linear-gradient(180deg,#eef4ff,#f7f9ff);border-color:#cbd8ff;color:#34476a">
+<strong>過去に治療を開始した患者さんも計算できます。</strong><br>
+治療月ごとに、2026年7月まで／2026年8月以降／2027年8月以降の高額療養費制度を切り替えて計算します。
+レケンビは2025年11月の薬価改定（200mg：45,777円→38,910円、500mg：114,443円→97,277円）も反映します。
+75歳以上2割負担者については、2025年9月までの外来配慮措置も概算反映します。
+</div>
 <ul style="line-height:1.8">
 <li>レケンビ：10 mg/kgを2週間ごと。200 mg瓶・500 mg瓶のうち、必要量を満たす最小薬価の組合せで算出。</li>
-<li>ケサンラ：350 mg → 700 mg → 1050 mg → 以後1400 mgを4週間ごと。12か月シナリオは14回、18か月シナリオはメーカー公表費用に合わせ19回として計算。</li>
+<li>ケサンラ：2025年8月25日以降の開始例は350 mg → 700 mg → 1050 mg → 以後1400 mg、同日前の開始例は旧用法（700 mg×3回→1400 mg）で概算。12か月シナリオ14回、18か月シナリオ19回として計算。</li>
 <li>レケンビMRI：治療開始後の定期MRIを5・7・14回目投与前、その後6か月ごととして計上。2026年6月改訂で推奨された3回目投与前MRIも標準設定として1回加えています。</li>
 <li>ケサンラMRI：2・3・4・7回目投与前、その後6か月ごととして計上。12か月・18か月シナリオとも、通常スケジュール上18か月以内に5回として扱います。</li>
 <li>治療開始前MRIは両剤とも必要ですが、比較差がないため通院回数には含めていません。</li>
@@ -623,6 +630,9 @@ MRIは原則として点滴とは<strong>別日受診</strong>として通院回
 </main>
 <script>
 const LEQ200=38910, LEQ500=97277, KIS350=66948;
+const LEQ200_OLD=45777, LEQ500_OLD=114443;
+const LEQ_PRICE_CHANGE=new Date("2025-11-01T00:00:00");
+const KIS_REGIMEN_CHANGE=new Date("2025-08-25T00:00:00");
 const yen=n=>Math.round(n).toLocaleString("ja-JP")+"円";
 const dparse=s=>new Date(s+"T12:00:00");
 function addDays(d,n){let x=new Date(d);x.setDate(x.getDate()+n);return x}
@@ -649,13 +659,21 @@ function ageClassForMonth(y,m,dob){
   const rg=regimeAt(first,dob);
   return rg==="u70"?"70歳未満":rg==="70to74"?"70～74歳":"75歳以上";
 }
-function leqVials(weight){
+function leqVials(weight,date=null){
  let need=weight*10, best=null;
+ const oldPrice = date && date < LEQ_PRICE_CHANGE;
+ const p200 = oldPrice ? LEQ200_OLD : LEQ200;
+ const p500 = oldPrice ? LEQ500_OLD : LEQ500;
  for(let n500=0;n500<=4;n500++)for(let n200=0;n200<=6;n200++){
-  let mg=n500*500+n200*200, cost=n500*LEQ500+n200*LEQ200;
-  if(mg>=need && (!best||cost<best.cost))best={mg,cost,n500,n200};
+  let mg=n500*500+n200*200, cost=n500*p500+n200*p200;
+  if(mg>=need && (!best||cost<best.cost))best={mg,cost,n500,n200,p200,p500};
  }
  return best;
+}
+function kisDoseFactor(i,start){
+ // 2025/8/25の用法変更前に開始した症例は旧漸増法（700mg×3回→1400mg）で概算。
+ if(start < KIS_REGIMEN_CHANGE) return i<3 ? 2 : 4;
+ return i===0?1:i===1?2:i===2?3:4;
 }
 function scheduleCount(start,intervalDays,count){
  let a=[], d=new Date(start);
@@ -668,7 +686,7 @@ function monthlyGross(dates,costFn){
  dates.forEach((d,i)=>{
    let k=monthKey(d);
    (o[k]??={gross:0,dates:[],items:[]});
-   const c=costFn(i);
+   const c=costFn(i,d);
    o[k].gross+=c;o[k].dates.push(d);o[k].items.push({date:new Date(d),cost:c,index:i});
  });
  return o
@@ -689,11 +707,45 @@ function autoShare(regime,income){
  return 0.1;
 }
 function rule(date, regime, income, copay70){
+ const preR8 = date < new Date("2026-08-01T00:00:00");
  const r9 = date >= new Date("2027-08-01T00:00:00");
- let base={share:autoShare(regime,income),out:null,outAnnual:null};
+ let base={share:autoShare(regime,income),out:null,outAnnual:null,annual:null,transition2pct:false};
  if(regime!=="u70" && copay70 && copay70!=="auto")base.share=(+copay70)/10;
 
- if(!r9){
+ if(preR8){
+   // 2026年7月までの旧制度
+   const g=incomeGroup2026(income);
+   const t={
+    g1160:[252600,842000,.01,140100],
+    g770:[167400,558000,.01,93000],
+    g370:[80100,267000,.01,44400],
+    gLow:[57600,0,0,44400],
+    gUnder200:[57600,0,0,44400],
+    nonTax:[35400,0,0,24600],
+    nonTaxLow:[35400,0,0,24600]
+   }[g];
+   Object.assign(base,{fixed:t[0],threshold:t[1],rate:t[2],repeat:t[3],annual:null});
+
+   if(regime!=="u70"){
+     if(g==="gLow"||g==="gUnder200"){
+       base.out=18000; base.outAnnual=144000; base.fixed=57600; base.repeat=44400;
+     }
+     if(g==="nonTax"){
+       base.out=8000; base.outAnnual=144000; base.fixed=24600; base.repeat=null;
+     }
+     if(g==="nonTaxLow"){
+       base.out=8000; base.outAnnual=144000; base.fixed=15000; base.repeat=null;
+     }
+
+     // 75歳以上・2割負担者の配慮措置（～2025/9/30）
+     if(regime==="75plus" && base.share===0.2 &&
+        date>=new Date("2022-10-01T00:00:00") &&
+        date<new Date("2025-10-01T00:00:00")){
+       base.transition2pct=true;
+     }
+   }
+ }else if(!r9){
+   // 2026/8～2027/7
    const g=incomeGroup2026(income);
    const t={
     g1160:[270300,901000,.01,140100,1680000],
@@ -711,6 +763,7 @@ function rule(date, regime, income, copay70){
      if(g==="nonTaxLow"){base.out=8000;base.fixed=15700;base.repeat=null;base.annual=180000}
    }
  }else{
+   // 2027/8～
    const t={
     inc1650:[342000,1140000,.01,140100,1680000],
     inc1410:[303000,1010000,.01,140100,1680000],
@@ -751,9 +804,14 @@ function capDetails(gross,r,isRepeat){
  let generalCap=r.fixed+Math.max(0,gross-r.threshold)*r.rate;
  if(isRepeat && r.repeat!=null)generalCap=r.repeat;
  const afterGeneral=Math.min(raw,generalCap);
- const pay=r.out!=null?Math.min(afterGeneral,r.out):afterGeneral;
+ let effectiveOut=r.out;
+ if(r.transition2pct){
+   const transitionCap=Math.min(18000,6000+Math.max(0,gross-30000)*0.1);
+   effectiveOut=effectiveOut==null?transitionCap:Math.min(effectiveOut,transitionCap);
+ }
+ const pay=effectiveOut!=null?Math.min(afterGeneral,effectiveOut):afterGeneral;
  const generalTriggered=raw>generalCap+0.5;
- const outpatientTriggered=r.out!=null && afterGeneral>r.out+0.5;
+ const outpatientTriggered=effectiveOut!=null && afterGeneral>effectiveOut+0.5;
  return {raw,generalCap,pay,generalTriggered,outpatientTriggered};
 }
 function fiscalYearKey(y,m){return String(m>=8?y:y-1)}
@@ -949,17 +1007,20 @@ function calculate(){
  const copay70=document.getElementById("copay70").value;
  const prior=+document.getElementById("prior").value, pet=+document.getElementById("pet").value||0;
  if(!dob||!start||!weight){alert("入力を確認してください");return}
- if(start<new Date("2026-08-01T00:00:00")){alert("このバージョンは2026年8月以降の治療開始を対象にしています。");return}
- const lv=leqVials(weight);
+ if(start<new Date("2023-12-20T00:00:00")){
+   alert("レケンビの国内薬価収載（2023年12月）より前の開始日は対象外です。");
+   return;
+ }
+ const lv=leqVials(weight,start);
  const leqDates=scheduleCount(start,14,39);
  const kis12=scheduleCount(start,28,14);
  const kis18=scheduleCount(start,28,19);
  const leqLastMonth=monthKey(leqDates[leqDates.length-1]);
  const k12LastMonth=monthKey(kis12[kis12.length-1]);
  const k18LastMonth=monthKey(kis18[kis18.length-1]);
- const leqM=monthlyGross(leqDates,()=>lv.cost);
- const k12M=monthlyGross(kis12,i=>(i===0?1:i===1?2:i===2?3:4)*KIS350);
- const k18M=monthlyGross(kis18,i=>(i===0?1:i===1?2:i===2?3:4)*KIS350);
+ const leqM=monthlyGross(leqDates,(i,d)=>leqVials(weight,d).cost);
+ const k12M=monthlyGross(kis12,i=>kisDoseFactor(i,start)*KIS350);
+ const k18M=monthlyGross(kis18,i=>kisDoseFactor(i,start)*KIS350);
  const leq=applyInsurance(leqM,dob,income,prior,copay70), k12=applyInsurance(k12M,dob,income,prior,copay70), k18=applyInsurance(k18M,dob,income,prior,copay70);
  const vals=[
   {name:"レケンビ",med:total(leq),pet:0,inf:leqDates.length,mri:6,vis:leq},
@@ -1015,6 +1076,13 @@ function calculate(){
   let x=leq.find(z=>z.k===k)||k12.find(z=>z.k===k)||k18.find(z=>z.k===k);
   return `<tr><td>${k}</td><td>${x.cls}${x.repeat?' <span class="pill">多数回</span>':''}</td><td>${getPayDisplay(leq,k,leqLastMonth)}</td><td>${getPayDisplay(k12,k,k12LastMonth)}</td><td>${getPayDisplay(k18,k,k18LastMonth)}</td></tr>`
  }).join("");
+ const historicalNote=document.getElementById("historicalStartNote");
+ if(historicalNote){
+   historicalNote.innerHTML = start < new Date("2024-11-26T00:00:00")
+     ? '<strong>参考：</strong>この開始日はケサンラ国内発売前です。ケサンラ列は同じ開始日を仮定した参考値であり、当時実際に選択可能だった治療費ではありません。'
+     : '';
+   historicalNote.style.display = historicalNote.innerHTML ? 'block' : 'none';
+ }
  document.getElementById("results").classList.remove("hidden");
  document.getElementById("results").scrollIntoView({behavior:"smooth"});
 }
